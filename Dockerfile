@@ -1,20 +1,21 @@
 # syntax=docker/dockerfile:1
 
 FROM golang:1.21 AS builder
-WORKDIR /src
 
-# copy module files first
-COPY go.mod ./
-COPY go.sum ./
+# Set Go environment to match module name
+WORKDIR /go/src/k8s-pod-alert
+
+# Copy go.mod and go.sum first
+COPY go.mod go.sum ./
 RUN go mod download
 
-# copy source code
+# Copy everything else
 COPY . .
 
-# build binary
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o /out/k8s-pod-alert ./cmd/main.go
+# Build binary
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o /k8s-pod-alert ./cmd/main.go
 
-# final runtime image
+# ---- Final image ----
 FROM gcr.io/distroless/base-debian12
-COPY --from=builder /out/k8s-pod-alert /k8s-pod-alert
+COPY --from=builder /k8s-pod-alert /k8s-pod-alert
 ENTRYPOINT ["/k8s-pod-alert"]
