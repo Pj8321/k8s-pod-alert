@@ -3,17 +3,18 @@
 FROM golang:1.21 AS builder
 WORKDIR /src
 
-# copy module files first (better cache)
+# copy module files first
 COPY go.mod ./
+COPY go.sum ./
 RUN go mod download
 
-# copy source
+# copy source code
 COPY . .
 
-# build
+# build binary
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o /out/k8s-pod-alert ./cmd/main.go
 
-# final image
+# final runtime image
 FROM gcr.io/distroless/base-debian12
 COPY --from=builder /out/k8s-pod-alert /k8s-pod-alert
 ENTRYPOINT ["/k8s-pod-alert"]
