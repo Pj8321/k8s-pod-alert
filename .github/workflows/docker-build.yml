@@ -30,9 +30,11 @@ jobs:
           context: .
           push: true
           platforms: linux/amd64
+          no-cache: true  
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.IMAGE_NAME }}:latest
             ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.IMAGE_NAME }}:${{ github.run_number }}
+
 
       - name: Output info
         run: echo " Image pushed to docker.io/${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.IMAGE_NAME }}:latest"
