@@ -14,6 +14,8 @@ import (
 	"k8s.io/client-go/tools/clientcmd"
 
 	"k8s-pod-alert/pkg/watcher"
+    "k8s-pod-alert/pkg/alert"
+    "k8s-pod-alert/pkg/collector"
 )
 
 func main() {
