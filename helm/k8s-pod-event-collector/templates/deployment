@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: k8s-pod-event-collector
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: k8s-pod-event-collector
+  template:
+    metadata:
+      labels:
+        app: k8s-pod-event-collector
+    spec:
+      serviceAccountName: k8s-pod-event-collector
+      containers:
+        - name: collector
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: CLUSTER_NAME
+              value: "{{ .Values.env.clusterName }}"
+            - name: SLACK_WEBHOOK_URL
+              value: "{{ .Values.env.slackWebhookUrl }}"
+            - name: ALERT_ON_RESTART
+              value: "{{ .Values.env.alertOnRestart }}"
+            - name: ALERT_ON_COMPLETION
+              value: "{{ .Values.env.alertOnCompletion }}"
+            - name: ALERT_ON_EVICTION
+              value: "{{ .Values.env.alertOnEviction }}"
+            - name: MUTE_SECONDS
+              value: "{{ .Values.env.muteSeconds }}"
+            - name: IGNORE_EXIT_CODE_ZERO
+              value: "{{ .Values.env.ignoreExitCodeZero }}"
+          resources: {{- toYaml .Values.resources | nindent 12 }}
