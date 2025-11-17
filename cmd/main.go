@@ -13,7 +13,7 @@ import (
 	"k8s.io/client-go/rest"
 	"k8s.io/client-go/tools/clientcmd"
 
-	"k8s-pod-event-collector/pkg/watcher"
+	"k8s-pod-alert/pkg/watcher"
 )
 
 func main() {
@@ -55,7 +55,7 @@ func main() {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	fmt.Printf("starting k8s-pod-event-collector at %s\n", time.Now().Format(time.RFC3339))
+	fmt.Printf("starting k8s-pod-alert at %s\n", time.Now().Format(time.RFC3339))
 
 	watcher.StartPodWatcher(ctx, clientset, watcher.Config{
 		SlackWebhook: slackWebhook,
