@@ -11,8 +11,7 @@ tolerations: []
 affinity: {}
 
 env:
-  clusterName: "change-me"
-  slackWebhookUrl: "https://hooks.slack.com/services/CHANGE/ME"
+  clusterName: "ihx-ai-staging-mt-cluster"
   alertOnRestart: true
   alertOnCompletion: true
   alertOnEviction: true
