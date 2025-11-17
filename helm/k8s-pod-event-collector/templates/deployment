@@ -21,7 +21,10 @@ spec:
             - name: CLUSTER_NAME
               value: "{{ .Values.env.clusterName }}"
             - name: SLACK_WEBHOOK_URL
-              value: "{{ .Values.env.slackWebhookUrl }}"
+              valueFrom:
+                secretKeyRef:
+                  name: slack-webhook
+                  key: SLACK_WEBHOOK_URL
             - name: ALERT_ON_RESTART
               value: "{{ .Values.env.alertOnRestart }}"
             - name: ALERT_ON_COMPLETION
@@ -32,4 +35,3 @@ spec:
               value: "{{ .Values.env.muteSeconds }}"
             - name: IGNORE_EXIT_CODE_ZERO
               value: "{{ .Values.env.ignoreExitCodeZero }}"
-          resources: {{- toYaml .Values.resources | nindent 12 }}
