@@ -35,4 +35,4 @@ jobs:
             ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.IMAGE_NAME }}:${{ github.run_number }}
 
       - name: Output info
-        run: echo "✅ Image pushed to docker.io/${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.IMAGE_NAME }}:latest"
+        run: echo " Image pushed to docker.io/${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.IMAGE_NAME }}:latest"
